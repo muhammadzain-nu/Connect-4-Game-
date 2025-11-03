@@ -1,0 +1,95 @@
+#include <stdio.h>
+#include <time.h>
+#include <stdlib.h>
+
+int main() {
+    char grid[8][8] = {0};
+    int winner = 0; // -1 system, +1 user
+    int n, i, j, k;
+    int Ucount, Ccount;
+    int turn = 0;
+
+    srand(time(NULL));
+
+    printf("-------------------------");
+    printf("\n------Get Ready----------");
+    printf("\n---The game starts Now---\n");
+
+    do {
+        if (turn % 2 == 0) {
+            printf("Enter the column (1-8): ");
+            scanf("%d", &n);
+        } else {
+            n = (rand() % 8) + 1;
+        }
+
+        for (i = 7; i >= 0; i--) {
+            if (grid[i][n-1] == 0) {
+                grid[i][n-1] = (turn % 2 == 0) ? 'R' : 'S';
+                break;
+            }
+        }
+
+        for (i = 0; i < 8; i++) {
+            for (j = 0; j <= 4; j++) {
+                Ucount = Ccount = 0;
+                for (k = 0; k < 4; k++) {
+                    if (grid[i][j+k] == 'R') Ucount++;
+                    if (grid[i][j+k] == 'S') Ccount++;
+                    
+                }
+                
+                if (Ucount == 4) winner = 1;
+                if (Ccount == 4) winner = -1;
+            }
+        }
+        for (j = 0; j < 8; j++) {
+    for (i = 0; i <= 4; i++) {  
+        Ucount = Ccount = 0;
+        for (k = 0; k < 4; k++) {
+            if (grid[i+k][j] == 'R') Ucount++;
+            if (grid[i+k][j] == 'S') Ccount++;
+        }
+        if (Ucount == 4) winner = 1;
+        if (Ccount == 4) winner = -1;
+    }
+    for (i = 0; i <= 4; i++) {
+    for (j = 0; j <= 4; j++) {
+        Ucount = Ccount = 0;
+        for (k = 0; k < 4; k++) {
+            if (grid[i + k][j + k] == 'R') Ucount++;
+            if (grid[i + k][j + k] == 'S') Ccount++;
+        }
+        if (Ucount == 4) winner = 1;
+        if (Ccount == 4) winner = -1;
+    }
+}
+for (i = 0; i <= 4; i++) {
+    for (j = 3; j < 8; j++) {
+        Ucount = Ccount = 0;
+        for (k = 0; k < 4; k++) {
+            if (grid[i + k][j - k] == 'R') Ucount++;
+            if (grid[i + k][j - k] == 'S') Ccount++;
+        }
+        if (Ucount == 4) winner = 1;
+        if (Ccount == 4) winner = -1;
+    }
+}
+
+}
+        
+        for (i = 0; i < 8; i++) {
+            for (j = 0; j < 8; j++)
+                printf(" %c ", grid[i][j] ? grid[i][j] : '.');
+            printf("\n");
+        }
+        printf("-------------------------\n");
+
+        turn++;
+    } while (winner != 1 && winner != -1);
+
+    if (winner == 1) printf("You win!\n");
+    else printf("Computer wins!\n");
+
+    return 0;
+}
